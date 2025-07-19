@@ -13,6 +13,6 @@ def add_time_features(df):
 
 
 def add_transaction_frequency(df, group_col):
-    """Add transaction frequency per group (e.g., user_id)."""
+    """Add transaction frequency per group (e.g., user_id) across the dataset."""
     df["trans_freq"] = df.groupby(group_col)[group_col].transform("count")
     return df

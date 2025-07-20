@@ -44,6 +44,8 @@ Place the following datasets in `data/raw/`:
 - `IpAddress_to_Country.csv` - IP geolocation mapping  
 - `creditcard.csv` - Credit card transaction data
 
+**Note**: Ensure datasets are placed in the correct directory structure before running the notebooks to avoid path errors.
+
 ## Project Architecture
 
 ```
@@ -123,6 +125,14 @@ fraud-detection/
 ```bash
 # Open and run: notebooks/EDA.ipynb
 ```
+
+**Step-by-Step Execution:**
+1. **Data Loading**: Execute the data loading section using `src/data_utils.py`
+2. **Data Cleaning**: Run the data cleaning section for duplicate removal and missing value imputation
+3. **Exploratory Analysis**: Execute the EDA section for univariate and bivariate analysis
+4. **Feature Engineering**: Run the feature engineering section to create temporal and behavioral features
+5. **Class Imbalance Analysis**: Execute the class imbalance analysis section
+
 **Outputs:**
 - `data/processed/processed_ecommerce_with_features.csv`
 - `data/processed/processed_creditcard.csv`
@@ -132,10 +142,48 @@ fraud-detection/
 ```bash  
 # Open and run: notebooks/model_training.ipynb
 ```
+
+**Step-by-Step Execution:**
+1. **Data Preprocessing**: Execute the preprocessing section to apply SMOTE, normalization, and encoding
+2. **Train-Test Split**: Run the data splitting section for stratified data splitting
+3. **Model Training**: Execute the model training section for Logistic Regression and Random Forest
+4. **Model Evaluation**: Run the evaluation section for performance metrics calculation
+5. **Visualization**: Execute the visualization section to generate ROC and PR curves
+
 **Outputs:**
 - Model performance metrics and comparisons
 - ROC and Precision-Recall curves in `plots/`
 - Trained model evaluation results
+
+## Code Structure & Documentation
+
+### **Modular Design Principles**
+The project follows clean code principles with modular functions:
+
+- **`src/data_utils.py`**: Contains reusable data loading and preprocessing functions
+  - `load_data()`: Standardized data loading with error handling
+  - `clean_data()`: Comprehensive data cleaning pipeline
+  - `merge_geolocation()`: IP-to-country mapping functionality
+
+- **`src/feature_engineering.py`**: Dedicated feature creation module
+  - `create_time_features()`: Temporal feature extraction
+  - `calculate_transaction_frequency()`: Behavioral pattern analysis
+  - `encode_categorical_features()`: Standardized encoding pipeline
+
+### **Code Quality Standards**
+- **Inline Documentation**: Each function includes detailed docstrings explaining parameters, returns, and business logic
+- **Error Handling**: Comprehensive try-catch blocks for data loading and processing steps
+- **Reproducibility**: Fixed random seeds (`random_state=42`) ensure consistent results
+- **Performance Optimization**: Efficient pandas operations and vectorized computations
+
+### **Notebook Structure & Flow**
+Both notebooks follow a logical progression:
+
+1. **Setup Phase**: Import statements and environment configuration
+2. **Data Preparation**: Loading, cleaning, and initial exploration
+3. **Analysis/Modeling**: Core functionality with detailed explanations
+4. **Evaluation**: Results interpretation and business insights
+5. **Output Generation**: Saving processed data and visualizations
 
 ## Key Findings
 
@@ -149,17 +197,45 @@ fraud-detection/
 - **Temporal Patterns**: Systematic fraud activity suggests automated attacks rather than opportunistic fraud
 - **Class Imbalance**: SMOTE successfully addresses severe imbalance while maintaining test data integrity
 
-## Code Quality & Testing
+### **Class Imbalance Impact Analysis**
+The severe class imbalance in both datasets has significant implications:
 
-### **Modular Design**
-- Reusable functions in `src/` directory
-- Comprehensive inline documentation
-- Consistent processing pipelines with reproducible results
+- **E-commerce Dataset**: 9.36% fraud rate requires careful balance between precision and recall
+  - **Without SMOTE**: Models would achieve high accuracy by predicting all transactions as legitimate
+  - **With SMOTE**: Balanced training enables proper fraud pattern learning
+  - **Business Impact**: Missing 1 fraud case costs significantly more than 1 false positive
+
+- **Credit Card Dataset**: 0.17% fraud rate represents extreme imbalance
+  - **Challenge**: Only 492 fraud cases out of 284,807 total transactions
+  - **SMOTE Strategy**: Synthetic oversampling creates balanced 50-50 training distribution
+  - **Validation**: Original test set proportions maintained for realistic performance evaluation
+  - **Result**: Models learn fraud patterns effectively while maintaining real-world applicability
+
+## Code Quality & Testing
 
 ### **Validation Approach**
 - Stratified train-test splits maintain class distribution
 - Cross-validation ensures model stability
 - Fraud-focused evaluation metrics (F1, ROC-AUC, AUC-PR)
+
+### **Error Handling & Robustness**
+- File existence validation before data loading
+- Missing value detection and appropriate handling strategies
+- Data type validation and conversion safeguards
+- Memory usage optimization for large datasets
+
+## Troubleshooting Guide
+
+### **Common Setup Issues**
+1. **Import Errors**: Ensure all dependencies are installed via `pip install -r requirements.txt`
+2. **File Path Errors**: Verify datasets are placed in `data/raw/` directory
+3. **Memory Issues**: For large datasets, consider increasing available RAM or using data sampling
+4. **Jupyter Kernel Issues**: Restart kernel and rerun from the beginning if encountering state issues
+
+### **Data Processing Issues**
+1. **Missing Files**: Check that all three datasets are present and correctly named
+2. **Encoding Issues**: Ensure CSV files use UTF-8 encoding
+3. **Memory Warnings**: Normal for large datasets; processing continues automatically
 
 ## Dependencies
 Key requirements include:
@@ -168,6 +244,8 @@ Key requirements include:
 - imbalanced-learn for SMOTE implementation
 - matplotlib, seaborn for visualization
 - jupyter for notebook environment
+
+**Full dependency list available in `requirements.txt`**
 
 ## Project Status
 
@@ -184,10 +262,26 @@ Key requirements include:
 - Performance visualization with ROC and PR curves
 - Model selection based on fraud detection effectiveness
 
+## Contributing & Code Standards
+
+### **Development Workflow**
+1. Create feature branches for new development
+2. Write comprehensive inline comments explaining business logic
+3. Include docstrings for all functions
+4. Test code with sample data before committing
+5. Update documentation for any new features
+
+### **Documentation Standards**
+- All functions must include docstrings with parameter descriptions
+- Complex business logic requires inline comments explaining rationale
+- README updates required for any structural changes
+- Report files maintained for technical documentation
+
 ## Repository
 - **GitHub**: `https://github.com/Yihenew21/Fraud-Detection-Adey-Innovations`
 - **Documentation**: Complete technical reports in `reports/` directory
 - **Reproducibility**: All analysis steps documented and executable
+- **Code Quality**: Modular design with comprehensive documentation
 
 ---
-*This project demonstrates end-to-end fraud detection implementation from data preprocessing through model evaluation and selection.*
+*This project demonstrates end-to-end fraud detection implementation from data preprocessing through model evaluation and selection, with emphasis on code quality, documentation clarity, and business impact analysis.*

@@ -40,12 +40,12 @@ jupyter lab
 ```
 
 ### Data Setup
-Place the following datasets in `data/raw/`:
-- `Fraud_Data.csv`: E-commerce transaction data
-- `IpAddress_to_Country.csv`: IP geolocation mapping
-- `creditcard.csv`: Credit card transaction data
+Place the following datasets in `data/raw/` with the specified formats and sizes:
+- `Fraud_Data.csv`: E-commerce transaction data, CSV format, ~151,112 rows, including columns `user_id`, `signup_time`, `purchase_time`, `purchase_value`, `source`, `browser`, `sex`, `ip_address`, `class`.
+- `IpAddress_to_Country.csv`: IP geolocation mapping, CSV format, mapping IP ranges to countries.
+- `creditcard.csv`: Credit card transaction data, CSV format, ~283,726 rows, including columns `Time`, `Amount`, `V1`-`V28`, `Class`.
 
-**Note**: Ensure datasets are placed in the correct directory structure before running the notebooks to avoid path errors.
+**Note**: Ensure datasets are placed in the correct directory structure before running the notebooks to avoid path errors. Verify file integrity and encoding (UTF-8) to prevent loading issues.
 
 ## Project Architecture
 ```
@@ -142,13 +142,34 @@ fraud-detection/
 
 ### Task 1: Data Analysis & Preprocessing
 **To run the analysis, follow these steps:**
-1. Open `notebooks/EDA.ipynb` in Jupyter Lab.
-2. Execute the cells in order:
-   - **Data Loading**: Use `src/data_utils.py` to load data.
-   - **Data Cleaning**: Perform duplicate removal and missing value imputation.
-   - **Exploratory Analysis**: Generate univariate and bivariate analysis plots.
-   - **Feature Engineering**: Create temporal and behavioral features.
-   - **Class Imbalance Analysis**: Analyze fraud and non-fraudulent transaction distribution.
+1. Open `notebooks/EDA.ipynb` in Jupyter Lab. (Runtime: ~2 minutes)
+   ```bash
+   jupyter lab notebooks/EDA.ipynb
+   ```
+2. Execute the "Setup Phase" cells to import libraries. (Runtime: ~30 seconds)
+   ```bash
+   # Run all cells under "Setup Phase" manually
+   ```
+3. Execute the "Data Loading" cells using `src/data_utils.py`. (Runtime: ~1 minute)
+   ```bash
+   # Run cells under "Data Loading" manually
+   ```
+4. Execute the "Data Cleaning" cells for duplicate removal and imputation. (Runtime: ~30 seconds)
+   ```bash
+   # Run cells under "Data Cleaning" manually
+   ```
+5. Execute the "Exploratory Analysis" cells to generate plots. (Runtime: ~1 minute)
+   ```bash
+   # Run cells under "Exploratory Analysis" manually
+   ```
+6. Execute the "Feature Engineering" cells to create temporal features. (Runtime: ~1 minute)
+   ```bash
+   # Run cells under "Feature Engineering" manually
+   ```
+7. Execute the "Class Imbalance Analysis" cells. (Runtime: ~30 seconds)
+   ```bash
+   # Run cells under "Class Imbalance Analysis" manually
+   ```
 
 **Expected Outputs:**
 - `data/processed/processed_ecommerce_with_features.csv`
@@ -157,13 +178,30 @@ fraud-detection/
 
 ### Task 2: Model Training & Evaluation
 **To run the analysis, follow these steps:**
-1. Open `notebooks/model_training.ipynb` in Jupyter Lab.
-2. Execute the cells in order:
-   - **Data Preprocessing**: Apply SMOTE, normalization, and encoding.
-   - **Train-Test Split**: Perform stratified data splitting.
-   - **Model Training**: Train Logistic Regression and Random Forest.
-   - **Model Evaluation**: Calculate performance metrics.
-   - **Visualization**: Generate ROC and Precision-Recall curves.
+1. Open `notebooks/model_training.ipynb` in Jupyter Lab. (Runtime: ~2 minutes)
+   ```bash
+   jupyter lab notebooks/model_training.ipynb
+   ```
+2. Execute the "Setup Phase" cells to import libraries. (Runtime: ~30 seconds)
+   ```bash
+   # Run all cells under "Setup Phase" manually
+   ```
+3. Execute the "Data Preprocessing" cells to apply SMOTE and normalization. (Runtime: ~2 minutes)
+   ```bash
+   # Run cells under "Data Preprocessing" manually
+   ```
+4. Execute the "Train-Test Split" cells. (Runtime: ~1 minute)
+   ```bash
+   # Run cells under "Train-Test Split" manually
+   ```
+5. Execute the "Model Training and Evaluation" cells to train Logistic Regression and Random Forest. (Runtime: ~25 minutes)
+   ```bash
+   # Run cells under "Model Training and Evaluation" manually
+   ```
+6. Execute the "Visualization" cells to generate ROC and PR curves. (Runtime: ~1 minute)
+   ```bash
+   # Run cells under "Visualization" manually
+   ```
 
 **Expected Outputs:**
 - Model performance metrics and comparisons
@@ -172,12 +210,30 @@ fraud-detection/
 
 ### Task 3: Model Explainability with SHAP
 **To run the analysis, follow these steps:**
-1. Open `notebooks/model_explainability.ipynb` in Jupyter Lab.
-2. Execute the cells in order:
-   - **Data Preparation**: Load preprocessed data from Task 2.
-   - **SHAP Computation**: Run `compute_shap_values` for 1000 samples.
-   - **Plot Generation**: Execute `plot_shap_summary` and `plot_shap_force` to create plots.
-   - **Interpretation**: Review plots in `plots/` and update interpretations in the notebook.
+1. Open `notebooks/model_explainability.ipynb` in Jupyter Lab. (Runtime: ~2 minutes)
+   ```bash
+   jupyter lab notebooks/model_explainability.ipynb
+   ```
+2. Execute the "Setup Phase" cells to import libraries. (Runtime: ~30 seconds)
+   ```bash
+   # Run all cells under "Setup Phase" manually
+   ```
+3. Execute the "Data Preparation" cells to load preprocessed data. (Runtime: ~1 minute)
+   ```bash
+   # Run cells under "Data Preparation" manually
+   ```
+4. Execute the "Train and Evaluate Models" cells to run `compute_shap_values`. (Runtime: ~25 minutes)
+   ```bash
+   # Run cells under "Train and Evaluate Models" manually
+   ```
+5. Execute the "SHAP Computation And Plot Generation" cells to create Summary and Force plots. (Runtime: ~2 minutes)
+   ```bash
+   # Run cells under "SHAP Computation and Plot Generation" manually
+   ```
+6. Execute the "Interpretation" cells to review and update findings. (Runtime: ~1 minute)
+   ```bash
+   # Run cells under "Interpretation" manually
+   ```
 
 **Expected Outputs:**
 - SHAP Summary and Force plots in `plots/`
@@ -259,15 +315,15 @@ All notebooks follow a logical progression:
 
 ### Troubleshooting Guide
 #### Common Setup Issues
-1. **Import Errors**: Ensure all dependencies are installed via `pip install -r requirements.txt`.
-2. **File Path Errors**: Verify datasets are placed in `data/raw/`.
-3. **Memory Issues**: For large datasets, consider increasing available RAM or using data sampling.
-4. **Jupyter Kernel Issues**: Restart the kernel and rerun from the beginning if encountering state issues.
+1. **Import Errors**: Ensure all dependencies are installed via `pip install -r requirements.txt`. Check Python version compatibility (3.11+).
+2. **File Path Errors**: Verify datasets are correctly placed in `data/raw/` with matching filenames (`Fraud_Data.csv`, `IpAddress_to_Country.csv`, `creditcard.csv`).
+3. **Memory Issues**: Increase RAM or use data sampling if memory errors occur during processing of large datasets.
+4. **Jupyter Kernel Issues**: Restart the kernel and clear outputs if cells fail to execute; ensure no stale variables persist.
 
 #### Data Processing Issues
-1. **Missing Files**: Check that all three datasets are present and correctly named.
-2. **Encoding Issues**: Ensure CSV files use UTF-8 encoding.
-3. **Memory Warnings**: Normal for large datasets; processing continues automatically.
+1. **Missing Files**: Confirm all three datasets are present and not corrupted; re-download if necessary.
+2. **Encoding Issues**: Ensure CSV files are in UTF-8 encoding; convert using a text editor or `iconv` if needed.
+3. **Memory Warnings**: These are normal for large datasets; processing will continue unless an error is raised.
 
 ## Dependencies
 - `pandas`, `numpy` for data manipulation
@@ -319,7 +375,7 @@ All notebooks follow a logical progression:
 - **Code Quality**: Modular design with comprehensive documentation.
 
 ## Note
-- This README was last updated at 05:46 AM PDT on Wednesday, July 30, 2025, reflecting the completion of Task 3 post-deadline. Please consult the instructor regarding resubmission policies.
+- This README was last updated at 08:48 AM PDT on Wednesday, July 30, 2025, reflecting the completion of Task 3 post-deadline. Please consult the instructor regarding resubmission policies.
 
 ---
 *This project demonstrates end-to-end fraud detection implementation from data preprocessing through model evaluation, selection, and explainability, with emphasis on code quality, documentation clarity, and business impact analysis.*
